@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "flash_cards_chatbot"
+version = "0.1.0"
+description = "telegram bot for working with flash cards"
+authors = ["team starperov.net"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+fastapi = "^0.85.0"
+piccolo = {extras = ["postgres"], version = "^0.91.0"}
+uvicorn = "^0.18.3"
+
+[tool.poetry.dev-dependencies]
+black = "mypy"
+mypy = "flake8"
+flake8 = "^5.0.4"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

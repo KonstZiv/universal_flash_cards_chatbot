@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  web:
+    env_file: .env
+    build: ./app/
+    working_dir: /app/src/
+    command: python main.py
+    volumes:
+      - ./app/src:/app/src
+    ports:
+      - '8000:8000'
+    depends_on:
+      - postgres
+
+  postgres:
+    env_file: .env
+    image: postgres:14
+    environment:
+      POSTGRES_USER: "${POSTGRES_USER-chat_bot}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD-chat_bot}"
+      POSTGRES_DB: "${POSTGRES_DATABASE_NAME-chat_bot}"
+
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432

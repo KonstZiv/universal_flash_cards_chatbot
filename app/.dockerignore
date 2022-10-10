@@ -1,0 +1,8 @@
+.git
+.env
+.venv/
+venv/
+doc/
+postgres_data/
+__pycache__/
+
