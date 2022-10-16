@@ -23,8 +23,8 @@ jobs:
         with:
           python-version: '3.10'
       - name: install poetry
-        run: curl -sSL https://install.python-poetry.org | python3 - && chmod a+x /opt/poetry/bin/poetry
-      - name: install
+        run: curl -sSL https://install.python-poetry.org | python3 -
+      - name: install packages
         run: poetry install
       - name: flake8
         run: poetry run flake8
