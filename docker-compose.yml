@@ -32,17 +32,9 @@ services:
 #    entrypoint: wait-for-it.sh postgres:5432 -t 60 --
 
 
-#  pytest:
-#    <<: *common-spec
-#    build:
-#      context: .
-#      dockerfile: Dockerfile
-#      target: dev
-#    volumes:
-#      - ./app/tests/:/app/tests/
-##    command: pytest tests/
-#    depends_on:
-#      - postgres
+  pytest:
+    <<: *python-container-spec
+    command: pytest tests/
 
   postgres:
     image: postgres:12
