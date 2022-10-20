@@ -1,27 +1,75 @@
+# Docker-compose configuration for development
+
 version: '3.8'
 
+x-common-spec: &common-spec
+  env_file: .env
+
+x-python-container-spec: &python-container-spec
+  <<: *common-spec
+  build:
+    context: .
+    dockerfile: Dockerfile
+    target: dev
+  environment:
+    PYTHONUNBUFFERED: "1"
+  volumes:
+    - &py-code-volume "./app:/app"
+  depends_on:
+    - postgres
+#    - redis
+#    - mailhog
+
+
 services:
-  web:
-    env_file: .env
-    build: ./app/
-    working_dir: /app/src/
-    command: python main.py
-    volumes:
-      - ./app/src:/app/src
+  python:
+    <<: *python-container-spec
     ports:
-      - '8000:8000'
-    depends_on:
-      - postgres
+      - "${FASTAPI_PORT-8000}:8000"
+    # Add -Wall option to see the (deprecation) warnings
+    # command: python -Wall manage.py runserver 0.0.0.0:80
+    command: python3 src/main.py
+#    entrypoint: wait-for-it.sh postgres:5432 -t 60 --
+
+
+#  pytest:
+#    <<: *common-spec
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#      target: dev
+#    volumes:
+#      - ./app/tests/:/app/tests/
+##    command: pytest tests/
+#    depends_on:
+#      - postgres
 
   postgres:
-    env_file: .env
-    image: postgres:14
-    environment:
-      POSTGRES_USER: "${POSTGRES_USER-chat_bot}"
-      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD-chat_bot}"
-      POSTGRES_DB: "${POSTGRES_DATABASE_NAME-chat_bot}"
-
+    image: postgres:12
+    # Comment in the following lines to connect to your Dockerized instance of Postgres from your host machine.
+    # Change the host port (before colon) if you have a local instance of Postgres running on that port.
+    # ports:
+    #     - "5432:5432"
     volumes:
-      - ./postgres_data:/var/lib/postgresql/data
-    ports:
-      - 5432:5432
+      - "postgres:/var/lib/postgresql/data"
+      - "./scripts/create-citext-extension.sql:/docker-entrypoint-initdb.d/create-citext-extension.sql"
+    environment:
+      # credentials taken from .env file
+      POSTGRES_USER: "${POSTGRES_USER-bot}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD-bot}"
+
+
+#  redis:
+#    image: redis:4.0.10-alpine
+#    sysctls:
+#      # To allow maintaining TCP backlog setting that defaults to 511
+#      net.core.somaxconn: 512
+#
+#  mailhog:
+#    image: mailhog/mailhog:v1.0.0
+#    ports:
+#      - "${MAILHOG_PORT-8025}:8025"
+
+volumes:
+  postgres: {}
+
