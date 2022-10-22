@@ -23,7 +23,7 @@ services:
   python:
     <<: *python-container-spec
     ports:
-      - "${FASTAPI_PORT-8000}:8000"
+      - "${FASTAPI_PORT:-8000}:8000"
     command: python3 app/main.py
 
   postgres:
@@ -37,8 +37,8 @@ services:
       - "./scripts/create-citext-extension.sql:/docker-entrypoint-initdb.d/create-citext-extension.sql"
     environment:
       # credentials taken from .env file
-      POSTGRES_USER: "${POSTGRES_USER-bot}"
-      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD-bot}"
+      POSTGRES_USER: "${POSTGRES_USER:-bot}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD:-bot}"
 
 volumes:
   postgres: {}
