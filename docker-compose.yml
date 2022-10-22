@@ -14,7 +14,7 @@ x-python-container-spec: &python-container-spec
   environment:
     PYTHONUNBUFFERED: "1"
   volumes:
-    - &py-code-volume "./app:/app"
+    - ".:/app"
   depends_on:
     - postgres
 #    - redis
