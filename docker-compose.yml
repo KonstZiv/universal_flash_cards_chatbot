@@ -26,15 +26,8 @@ services:
     <<: *python-container-spec
     ports:
       - "${FASTAPI_PORT-8000}:8000"
-    # Add -Wall option to see the (deprecation) warnings
-    # command: python -Wall manage.py runserver 0.0.0.0:80
     command: python3 src/main.py
 #    entrypoint: wait-for-it.sh postgres:5432 -t 60 --
-
-
-  pytest:
-    <<: *python-container-spec
-    command: pytest tests/
 
   postgres:
     image: postgres:12
