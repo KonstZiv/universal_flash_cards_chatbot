@@ -1,6 +1,5 @@
 FROM python:3.10-slim-buster AS system
 
-ENV APP=./app
 ENV PIP_DISABLE_PIP_VERSION_CHECK=on
 ENV PYTHONPYCACHEPREFIX=/.pycache
 
@@ -41,8 +40,8 @@ WORKDIR /src
 
 FROM system AS dev
 
-COPY $APP/pyproject.toml .
-COPY $APP/poetry.lock .
+COPY pyproject.toml .
+COPY poetry.lock .
 
 RUN poetry install
 
