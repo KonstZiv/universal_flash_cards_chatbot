@@ -25,7 +25,6 @@ services:
     ports:
       - "${FASTAPI_PORT-8000}:8000"
     command: python3 src/main.py
-#    entrypoint: wait-for-it.sh postgres:5432 -t 60 --
 
   postgres:
     image: postgres:12
