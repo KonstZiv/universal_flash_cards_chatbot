@@ -24,7 +24,7 @@ services:
     <<: *python-container-spec
     ports:
       - "${FASTAPI_PORT-8000}:8000"
-    command: python3 src/main.py
+    command: python3 app/main.py
 
   postgres:
     image: postgres:12
