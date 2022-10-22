@@ -49,29 +49,3 @@ RUN poetry install
 WORKDIR /app
 
 CMD bash
-
-
-
-
-#FROM system AS prod
-#
-#COPY ./wait-for-it.sh /home/user/.local/bin/
-#COPY $APP/pyproject.toml .
-#COPY $APP/poetry.lock .
-#
-#RUN poetry install --no-dev
-#
-#COPY --chown=$USER_ID:$USER_ID $APP /app
-#RUN mkdir -p "/app/files/assets" "/app/files/logs" "/app/files/media" "/app/files/static"
-#
-## Set the default directory where CMD will execute
-#WORKDIR /app
-#
-#ENV DJANGO_DEBUG=0
-#ENV DJANGO_PRODUCTION_MODE=1
-#ENV PYTHONDONTWRITEBYTECODE=1
-#
-## Turn on later
-## RUN DJANGO_DOCKER_BUILD=True python manage.py compilemessages
-#
-#CMD bash
