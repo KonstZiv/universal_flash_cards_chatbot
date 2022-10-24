@@ -1,4 +1,5 @@
-
+poetry.toml
+.venv/
 ### Linux ###
 *~
 
