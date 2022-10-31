@@ -1,6 +1,6 @@
-from settings import settings
-from lib.translater import get_translate
-from scheme.trans import TranslateResponse, TranslateRquest, ISO639_1
+from app.settings import settings
+from app.base_function.translater import get_translate
+from app.scheme.trans import TranslateRquest, ISO639_1
 
 
 input_data = TranslateRquest(
