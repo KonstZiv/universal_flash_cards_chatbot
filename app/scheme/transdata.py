@@ -246,5 +246,4 @@ class TranslateResponse(BaseModel):
     """Describes data model for the translation response."""
 
     input_line: str
-    detected_input_lag: str
     translaled_line: str

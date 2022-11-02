@@ -26,6 +26,5 @@ def get_translate(
         )
     return TranslateResponse(
         input_line=input_.line,
-        detected_input_lag=result["detectedSourceLanguage"],
         translaled_line=result["translatedText"],
     )
