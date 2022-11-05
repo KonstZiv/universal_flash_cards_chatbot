@@ -2,20 +2,20 @@ import pytest
 from pydantic import ValidationError
 
 from app.base_function.translator import get_translate
-from app.scheme.transdata import ISO639_1, TranslateRquest
+from app.scheme.transdata import ISO639_1, TranslateRequest
 from app.settings import settings   # noqa
 
 
 def test_get_translate():
-    request_1 = TranslateRquest(
+    request_1 = TranslateRequest(
         in_lang=ISO639_1.English, out_lang=ISO639_1.Ukranian, line="makes"
     )
 
-    request_2 = TranslateRquest(
+    request_2 = TranslateRequest(
         in_lang=ISO639_1.Russian, out_lang=ISO639_1.Ukranian, line="унылая пора"
     )
 
-    request_3 = TranslateRquest(
+    request_3 = TranslateRequest(
         in_lang=ISO639_1.English, out_lang=ISO639_1.Ukranian, line="    assemble  "
     )
 
@@ -28,7 +28,7 @@ def test_get_translate():
 
 def test_validate_in_data():
     with pytest.raises(ValidationError) as exc_info:
-        TranslateRquest(
+        TranslateRequest(
             in_lang=ISO639_1.English, out_lang=ISO639_1.English, line="    assemble  "
         )
     assert exc_info.value.errors() == [
@@ -41,7 +41,7 @@ def test_validate_in_data():
 
 
 def test_matching_indicated_and_recognized_lang():
-    request_5 = TranslateRquest(
+    request_5 = TranslateRequest(
         in_lang=ISO639_1.Haitian, out_lang=ISO639_1.Ukranian, line="    assemble  "
     )
     with pytest.raises(ValueError) as exc_info:

@@ -1,13 +1,13 @@
 from google.cloud import translate_v2 as translate
-from app.settings import settings   # noqa
+from app.settings import settings #noqa
 
-from app.scheme.transdata import TranslateResponse, TranslateRquest
+from app.scheme.transdata import TranslateResponse, TranslateRequest
 
 translate_client = translate.Client()
 
 
 def get_translate(
-    input_: TranslateRquest, translate_client: translate.Client = translate_client
+    input_: TranslateRequest, translate_client: translate.Client = translate_client
 ) -> TranslateResponse:
     """Translates a word or phrase.
 
