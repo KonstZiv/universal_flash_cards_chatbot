@@ -1,12 +1,12 @@
 import os
 
 from dotenv import load_dotenv
-from pydantic import BaseModel
+from pydantic import BaseSettings
 
 load_dotenv()
 
 
-class Settings(BaseModel):
+class Settings(BaseSettings):
     BOT_TOKEN = os.getenv("BOT_TOKEN")
     POSTGRES_HOST = os.getenv("POSTGRES_HOST", "postgres")
     POSTGRES_PORT = os.getenv("POSTGRES_PORT", 5432)

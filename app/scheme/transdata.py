@@ -231,7 +231,7 @@ class TranslateRquest(BaseModel):
     line: str
 
     @validator("out_lang")
-    def out_land_must_not_be_equal_in_lang(cls, out_lang, values):
+    def out_lang_must_not_be_equal_in_lang(cls, out_lang, values):
         if out_lang == values["in_lang"]:
             raise ValueError("out_lang must not be equal to in_lang")
         return out_lang
