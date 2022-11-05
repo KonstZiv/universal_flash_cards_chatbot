@@ -1,5 +1,5 @@
 from google.cloud import translate_v2 as translate
-from app.settings import settings #noqa
+from app.settings import settings  # noqa
 
 from app.scheme.transdata import TranslateResponse, TranslateRequest
 
