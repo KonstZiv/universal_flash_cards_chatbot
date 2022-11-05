@@ -11,6 +11,6 @@ max-complexity = 12
 import-order-style = google
 max-line-length = 120
 max-linenumber = 500
-accept-encodings = utf-8,utf-16
+accept-encodings = utf-8
 inline-quotes = double
 multiline-quotes = double
