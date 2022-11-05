@@ -21,7 +21,7 @@ def get_translate(
     result = translate_client.translate(input_.line, target_language=input_.out_lang)
     if result["detectedSourceLanguage"] != input_.in_lang:
         raise ValueError(
-            "Original message language recognized as"
+            "Original message language recognized as "
             f"{result['detectedSourceLanguage']} while {input_.in_lang} is specified"
         )
     return TranslateResponse(

@@ -223,7 +223,7 @@ class ISO639_1(str, Enum):
     Zulu = "zu"
 
 
-class TranslateRquest(BaseModel):
+class TranslateRequest(BaseModel):
     """Describes data model for the translation request."""
 
     in_lang: ISO639_1
