@@ -45,14 +45,14 @@ limit-inference-results=100
 
 # List of plugins (as comma separated values of python module names) to load,
 # usually to register additional checkers.
-load-plugins=pylint_django
+#load-plugins
 
 # Pickle collected data for later comparisons.
 persistent=yes
 
 # Minimum Python version to use for version dependent checks. Will default to
 # the version used to run pylint.
-py-version=3.9
+py-version=3.10
 
 # When enabled, pylint would attempt to guess common misconfiguration and emit
 # user-friendly hints instead of false-positive error messages.
@@ -98,7 +98,7 @@ disable=deprecated-pragma,
         # checked by mypy
         no-member,
         # disabled because too many false positives
-        no-self-use,
+        #no-self-use,
         # checked by mypy
         not-an-iterable,
         # checked by mypy
@@ -112,7 +112,7 @@ disable=deprecated-pragma,
         wildcard-import,
         # checked by flake8
         wrong-import-position,
-        z # the last line, just to allow all previous ones to have trailing commas
+        #z # the last line, just to allow all previous ones to have trailing commas
 
 
 # Enable the message, report, category or checker with the given id(s). You can

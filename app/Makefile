@@ -74,7 +74,7 @@ pylint: ## Run Python code style checks
 ifdef args
 	make -s run-python cmd='pylint ${PROJECT_NAME} $(args)'
 else
-	make -s run-python cmd='pylint *'
+	make -s run-python cmd='pylint ${PROJECT_NAME}'
 endif
 
 .PHONY:
@@ -87,7 +87,7 @@ mypy:  ## Check Python types
 .PHONY:
 isort-check:
 	echo -e "$(CYAN)Checking imports with isort$(COFF)"
-	make -s run-python cmd='isort . --check --diff'
+	make -s run-python cmd='isort tests $(PROJECT_NAME) --check --diff'
 
 
 .PHONY:
