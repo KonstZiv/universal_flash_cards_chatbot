@@ -1,9 +1,11 @@
+from app.settings import settings   # noqa !!!used to load the environment variables required for the function get_translate
 import pytest
 from pydantic import ValidationError
+from unittest.mock import patch
+from app.base_function.translator import translate_client
 
 from app.base_function.translator import get_translate
 from app.scheme.transdata import ISO639_1, TranslateRequest
-from app.settings import settings   # noqa
 
 
 def test_get_translate():
@@ -11,19 +13,10 @@ def test_get_translate():
         in_lang=ISO639_1.English, out_lang=ISO639_1.Ukranian, line="makes"
     )
 
-    request_2 = TranslateRequest(
-        in_lang=ISO639_1.Russian, out_lang=ISO639_1.Ukranian, line="унылая пора"
-    )
+    with patch.object(translate_client, "translate", return_value="робить") as mock_translate:
+        assert get_translate(input_=request_1).translated_line == "робить"
 
-    request_3 = TranslateRequest(
-        in_lang=ISO639_1.English, out_lang=ISO639_1.Ukranian, line="    assemble  "
-    )
-
-    assert get_translate(input_=request_1).translaled_line == "робить"
-
-    assert get_translate(input_=request_2).translaled_line == "похмура пора"
-
-    assert get_translate(input_=request_3).translaled_line == "зібрати"
+        mock_translate.assert_called_once_with(request_1.line, target_language=request_1.out_lang)
 
 
 def test_validate_in_data():
