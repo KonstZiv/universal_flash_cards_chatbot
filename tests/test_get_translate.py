@@ -8,15 +8,32 @@ from app.base_function.translator import get_translate
 from app.scheme.transdata import ISO639_1, TranslateRequest
 
 
-def test_get_translate():
-    request_1 = TranslateRequest(
-        in_lang=ISO639_1.English, out_lang=ISO639_1.Ukranian, line="makes"
-    )
+@pytest.mark.parametrize(
+    ("translate_request", "mock_translate_return_value", "right_answer"),
+    (
+        (
+            TranslateRequest(in_lang=ISO639_1.English, out_lang=ISO639_1.Ukranian, line="makes"),
+            {"translatedText": "робить", "detectedSourceLanguage": "en", "input": "makes"},
+            "робить"
+        ),
+        (
+            TranslateRequest(in_lang=ISO639_1.Russian, out_lang=ISO639_1.Ukranian, line="унылая пора"),
+            {"translatedText": "похмура пора", "detectedSourceLanguage": "ru", "input": "унылая пора"},
+            "похмура пора"
+        ),
+        (
+            TranslateRequest(in_lang=ISO639_1.English, out_lang=ISO639_1.Ukranian, line="    assemble  "),
+            {"translatedText": "зібрати", "detectedSourceLanguage": "en", "input": "assemble"},
+            "зібрати"
+        )
+    ),
+)
+def test_get_translate(translate_request, mock_translate_return_value, right_answer):
 
-    with patch.object(translate_client, "translate", return_value="робить") as mock_translate:
-        assert get_translate(input_=request_1).translated_line == "робить"
+    with patch.object(translate_client, "translate", return_value=mock_translate_return_value) as mock_translate:
+        assert get_translate(input_=translate_request).translated_line == right_answer
 
-        mock_translate.assert_called_once_with(request_1.line, target_language=request_1.out_lang)
+    mock_translate.assert_called_once_with(translate_request.line, target_language=translate_request.out_lang)
 
 
 def test_validate_in_data():
@@ -34,9 +51,12 @@ def test_validate_in_data():
 
 
 def test_matching_indicated_and_recognized_lang():
-    request_5 = TranslateRequest(
-        in_lang=ISO639_1.Haitian, out_lang=ISO639_1.Ukranian, line="    assemble  "
-    )
-    with pytest.raises(ValueError) as exc_info:
-        get_translate(input_=request_5)
-    assert "Original message language recognized as" in str(exc_info.value)
+    translate_request = TranslateRequest(in_lang=ISO639_1.Haitian, out_lang=ISO639_1.Ukranian, line="    assemble  ")
+    mock_translate_return_value = {'translatedText': 'зібрати', 'detectedSourceLanguage': 'en', 'input': 'assemble'}
+
+    with patch.object(translate_client, "translate", return_value=mock_translate_return_value) as mock_translate:
+        with pytest.raises(ValueError) as exc_info:
+            get_translate(input_=translate_request)
+        assert "Original message language recognized as" in str(exc_info.value)
+
+    mock_translate.assert_called_once_with(translate_request.line, target_language=translate_request.out_lang)
