@@ -1,7 +1,7 @@
 from aiogram import types
 from main import dp, bot
 
-import keyboards as kb
+import handlers.personal.keyboards as kb
 
 NATIVE_LANGUAGE = TARGET_LANGUAGE = ''
 

@@ -18,3 +18,4 @@ async def translate_word(msg: types.Message):
     )
     translated = get_translate(input_=request).translated_line
     await msg.answer(f'you wrote {msg.text}. Translated - "{translated}"')
+
