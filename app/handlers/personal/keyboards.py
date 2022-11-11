@@ -1,5 +1,5 @@
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, \
-    InlineKeyboardMarkup, InlineKeyboardButton,
+    InlineKeyboardMarkup, InlineKeyboardButton
 
 languages = ["Albanian", "Belarusian", "Chinese",
              "Croatian", "English", "Estonian",
