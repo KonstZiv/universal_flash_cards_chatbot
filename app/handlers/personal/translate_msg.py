@@ -12,9 +12,9 @@ from main import dp
 async def translate_word(msg: types.Message):
     global NATIVE_LANGUAGE, TARGET_LANGUAGE
     from .start import NATIVE_LANGUAGE, TARGET_LANGUAGE
-    print('-------------', NATIVE_LANGUAGE, TARGET_LANGUAGE)
+
     request = TranslateRequest(
         in_lang=ISO639_1[TARGET_LANGUAGE], out_lang=ISO639_1[NATIVE_LANGUAGE], line=msg.text
     )
     translated = get_translate(input_=request).translated_line
-    await msg.answer(f'you write {msg.text}. Translate - "{translated}"')
+    await msg.answer(f'you wrote {msg.text}. Translated - "{translated}"')

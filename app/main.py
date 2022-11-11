@@ -4,9 +4,6 @@ from aiogram.utils import executor
 
 from settings import settings
 
-import keyboards as kb
-
-
 bot = Bot(token=settings.BOT_TOKEN)
 dp = Dispatcher(bot)
 

@@ -20,9 +20,3 @@ for i in range(0,len(languages)-1,3):
                                  InlineKeyboardButton(languages[i+2], callback_data=languages[i+2]),)
 select_language_keyboard.add(InlineKeyboardButton(languages[-1], callback_data=languages[-1]))
 
-
-button_parent = InlineKeyboardButton("for my children")
-button_me = InlineKeyboardButton("for me")
-
-
-general_kb = InlineKeyboardMarkup(resize_keyboard=True).add(button_me).add(button_parent)
