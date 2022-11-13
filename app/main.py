@@ -1,13 +1,13 @@
-import uvicorn
-from fastapi import FastAPI
+from aiogram import Bot
+from aiogram.dispatcher import Dispatcher
+from aiogram.utils import executor
 
-app = FastAPI()
+from settings import settings
 
-
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
+bot = Bot(token=settings.BOT_TOKEN)
+dp = Dispatcher(bot)
 
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", port=8000, host="0.0.0.0", reload=True)
+    from handlers import dp
+    executor.start_polling(dp)
