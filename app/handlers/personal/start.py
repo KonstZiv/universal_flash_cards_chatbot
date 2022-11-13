@@ -13,7 +13,7 @@ NATIVE_LANGUAGE = TARGET_LANGUAGE = ''
 @dp.message_handler(commands=['start', 'початок', ])
 async def start_message(msg: types.Message):
     await set_default_commands(dp)
-    await bot.send_message(msg.from_user.id, text=f"Hello, {msg.from_user.full_name}",  reply_markup=kb.markup_down)
+    await msg.answer(text=f"Hello, {msg.from_user.full_name}", reply_markup=kb.markup_down)
     await msg.answer(text="what is your native language?", reply_markup=kb.select_language_keyboard)
 
 
