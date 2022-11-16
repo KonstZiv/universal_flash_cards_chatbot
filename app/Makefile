@@ -47,7 +47,7 @@ patch-coverage-py-paths:
 
 .PHONY:
 autoflake:  args ?= .
-autoflake:  ## Run autoflake (fix unused imports) on Python code
+autoflake:  ## Run autoflake (fix unused imports and variables) on Python code
 	make -s run-python cmd="autoflake -r -i --remove-all-unused-imports --remove-unused-variables $(args)"
 
 
@@ -94,7 +94,7 @@ isort-check:
 isort: args ?= .
 isort: ## Fix imports automatically with isort
 	echo -e "$(CYAN)Fixing imports with isort$(COFF)"
-	make -s run-python cmd="isort $(args)"
+	make -s run-python cmd="isort $(args) --skip-glob='*/site-packages/*'"
 
 
 .PHONY:
