@@ -13,7 +13,7 @@ poetry-lock:  ## Recreate Poetry lock file after any changes to pyproject.toml f
 
 
 .PHONY:
-poetry-add:  ## Add package to poetry: make poetry-add cmd=package
+poetry-add: ## Add package to poetry: make poetry-add cmd=package
 	make _run-poetry-helper cmd="poetry add $(cmd)"
 
 
@@ -130,7 +130,7 @@ _build-poetry-helper:
 _run-poetry-helper: make-dirs _build-poetry-helper
 	docker run -t --rm --name $(POETRY_WRAPPER_IMAGE_NAME) \
 	-v $(PWD)/scripts:/scripts \
-	-v $(BACKEND_DIR):/src \
+	-v $(PWD):/src \
 	-v $(CACHE_DIR):/home/user/.cache \
 	$(POETRY_WRAPPER_IMAGE_NAME) $(cmd)
 
