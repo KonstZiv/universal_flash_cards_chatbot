@@ -21,6 +21,7 @@ class ContextName(Table):
     id = UUID(primary_key=True)
     context_class_id = ForeignKey(references=ContextClass)
     name = Varchar()
+    name_alfa2 = Varchar()
     description = Text()
 
 
