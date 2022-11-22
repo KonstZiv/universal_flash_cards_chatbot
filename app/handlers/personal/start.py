@@ -1,15 +1,14 @@
-from aiogram import types, Dispatcher
+import handlers.personal.keyboards as kb
+from aiogram import Dispatcher, types
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Regexp
 from aiogram.dispatcher.filters.state import State, StatesGroup
-
 from base_function.translator import get_translate
+from create_bot import bot
 from scheme.transdata import ISO639_1, TranslateRequest
 
-from create_bot import dp, bot
-import handlers.personal.keyboards as kb
-
 NATIVE_LANGUAGE = TARGET_LANGUAGE = ''
+
 
 class FSMChooseLanguage(StatesGroup):
     native_language = State()
@@ -54,7 +53,3 @@ def register_handler_start(dp: Dispatcher):
     dp.register_callback_query_handler(select_native_language, state=FSMChooseLanguage.native_language)
     dp.register_callback_query_handler(select_target_language, state=FSMChooseLanguage.target_language)
     dp.register_message_handler(translate_word, Regexp(regexp='[a-zA-Z ]'))
-
-
-
-
