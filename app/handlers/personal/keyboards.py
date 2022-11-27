@@ -4,7 +4,7 @@ from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, \
 languages = ["Albanian", "Belarusian", "Chinese",
              "Croatian", "English", "Estonian",
              "French", "German", "Russian",
-             "Ukrainian", ]
+             "Ukraine", ]
 
 markup_down = ReplyKeyboardMarkup(resize_keyboard=True)\
     .add(KeyboardButton('Add new word'))\
