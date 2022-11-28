@@ -32,7 +32,7 @@ class UserContext(Table):
     context_1 = ForeignKey(references=ContextName)
     context_2 = ForeignKey(references=ContextName)
     user = ForeignKey(references=User)
-    last_date = Timestamp(auto_update=datetime.datetime.now)
+    last_date = Timestamp(default=datetime.datetime.now())
 
 
 class Object(Table):

@@ -5,7 +5,10 @@ async def add_new_user_db(data_telegram):
     last_name = data_telegram.last_name
     if not last_name:
         last_name = ''
-
+    user = await User.objects() \
+        .get(User.telegram_user_id == data_telegram.id)
+    if user:
+        return user
     user = User(
         telegram_user_id=data_telegram.id,
         telegram_language=data_telegram.language_code,
@@ -20,8 +23,8 @@ async def add_new_user_db(data_telegram):
 async def add_user_context_db(data_callback_query, user_db):
     print('____________', ContextName.name)
     print('****', data_callback_query['native_lang'])
-    context_1 = await ContextName.objects().where(ContextName.name == data_callback_query['native_lang'])
-    context_2 = await ContextName.objects().where(ContextName.name == data_callback_query['target_lang'])
+    context_1 = await ContextName.objects().get(ContextName.name == data_callback_query['native_lang'])
+    context_2 = await ContextName.objects().get(ContextName.name == data_callback_query['target_lang'])
     user_context = UserContext(
         context_1=context_1,
         context_2=context_2,
@@ -34,7 +37,8 @@ async def add_user_context_db(data_callback_query, user_db):
 async def user_context_is_exist_db(telegram_user_id):
     print('^^^^^', UserContext.user)
     user_context = await UserContext.objects() \
-        .where(UserContext.user.telegram_user_id == telegram_user_id)\
+        .get(UserContext.user.telegram_user_id == telegram_user_id)\
         # .order_by(UserContext.last_date, ascending=False)\
         # .first()
+    print('user_context----------',user_context)
     return user_context
