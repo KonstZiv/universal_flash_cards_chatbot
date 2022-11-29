@@ -36,9 +36,12 @@ async def add_user_context_db(data_callback_query, user_db):
 
 async def user_context_is_exist_db(telegram_user_id):
     print('^^^^^', UserContext.user)
+    user = await User.objects() \
+        .get(User.telegram_user_id == telegram_user_id)
+
     user_context = await UserContext.objects() \
-        .get(UserContext.user.telegram_user_id == telegram_user_id)\
-        # .order_by(UserContext.last_date, ascending=False)\
-        # .first()
+        .get(UserContext.user.id == user.id)\
+        .order_by(UserContext.last_date, ascending=False)\
+        .first()
     print('user_context----------',user_context)
     return user_context
