@@ -21,8 +21,7 @@ async def add_new_user_db(data_telegram):
 
 
 async def add_user_context_db(data_callback_query, user_db):
-    print('____________', ContextName.name)
-    print('****', data_callback_query['native_lang'])
+
     context_1 = await ContextName.objects().get(ContextName.name == data_callback_query['native_lang'])
     context_2 = await ContextName.objects().get(ContextName.name == data_callback_query['target_lang'])
     user_context = UserContext(
@@ -35,13 +34,10 @@ async def add_user_context_db(data_callback_query, user_db):
 
 
 async def user_context_is_exist_db(telegram_user_id):
-    print('^^^^^', UserContext.user)
-    user = await User.objects() \
-        .get(User.telegram_user_id == telegram_user_id)
 
-    user_context = await UserContext.objects() \
-        .get(UserContext.user.id == user.id)\
+    user_context = await UserContext.objects(UserContext.all_related()) \
+        .get(UserContext.user.telegram_user_id == telegram_user_id)\
         .order_by(UserContext.last_date, ascending=False)\
         .first()
-    print('user_context----------',user_context)
+
     return user_context
