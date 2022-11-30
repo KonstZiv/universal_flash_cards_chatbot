@@ -1,8 +1,8 @@
 from google.cloud import translate_v2 as translate
-from scheme.transdata import TranslateRequest, TranslateResponse
 
+from app.scheme.transdata import TranslateRequest, TranslateResponse
 # noqa !!!used to load the environment variables required for the function get_translateimporta
-from settings import settings # noqa !!!
+from app.settings import settings  # noqa !!!
 
 translate_client = translate.Client()
 

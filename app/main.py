@@ -1,7 +1,8 @@
 from aiogram import Bot
 from aiogram.dispatcher import Dispatcher
 from aiogram.utils import executor
-from settings import settings
+
+from app.settings import settings
 
 bot = Bot(token=settings.BOT_TOKEN)
 dp = Dispatcher(bot)

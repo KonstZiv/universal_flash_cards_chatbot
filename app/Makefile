@@ -2,6 +2,7 @@
 
 # Coverage reports for Python
 # Locally, use html report. In CI, xml:some/path
+include .env
 PYTHON_COVERAGE_REPORT ?= html
 
 POETRY_WRAPPER_IMAGE_NAME ?= $(PROJECT_NAME)_poetry_wrapper
@@ -98,8 +99,23 @@ isort: ## Fix imports automatically with isort
 
 
 .PHONY:
+makemigrations: ## Make piccolo migrations
+	docker-compose run --rm python piccolo migrations new $(PROJECT_NAME) --auto --trace $(cmd)
+	UNCOMMITTED_MIGRATIONS=`git ls-files --exclude-standard -o . | grep migrations`; \
+	if [ "x$$UNCOMMITTED_MIGRATIONS" != "x" ]; then \
+		make fmt-py; \
+		echo -e "$(CYAN)Don't forget to add these files to git:$(COFF)"; \
+		echo "$$UNCOMMITTED_MIGRATIONS"; \
+	fi
+
+
+.PHONY:
+migrate:
+	docker-compose run --rm python piccolo migrations forwards $(PROJECT_NAME) $(cmd)
+
+.PHONY:
 psql:
-	docker-compose exec postgres psql --user $(PROJECT_NAME) --dbname $(PROJECT_NAME)
+	docker-compose exec postgres psql --user $(POSTGRES_USER) --dbname $(POSTGRES_DATABASE_NAME)
 
 
 .PHONY:

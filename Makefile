@@ -1,3 +1,5 @@
+include .env
+
 # Project name
 PROJECT_NAME ?= app
 

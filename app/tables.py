@@ -1,5 +1,6 @@
+from piccolo.columns.column_types import (UUID, ForeignKey, Integer, Text,
+                                          Timestamp, Varchar)
 from piccolo.table import Table
-from piccolo.columns.column_types import UUID, Integer, Varchar, Text, Timestamp, ForeignKey
 
 
 class User(Table, tablename="users"):
