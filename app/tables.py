@@ -19,7 +19,7 @@ class ContextClass(Table):
     name = Varchar()
 
 
-class ContextName(Table):
+class Context(Table):
     id = UUID(primary_key=True)
     context_class = ForeignKey(references=ContextClass)
     name = Varchar()
@@ -29,28 +29,28 @@ class ContextName(Table):
 
 class UserContext(Table):
     id = UUID(primary_key=True)
-    context_1 = ForeignKey(references=ContextName)
-    context_2 = ForeignKey(references=ContextName)
+    context_1 = ForeignKey(references=Context)
+    context_2 = ForeignKey(references=Context)
     user = ForeignKey(references=User)
     last_date = Timestamp(default=datetime.datetime.now())
 
 
-class Object(Table):
-    autor = ForeignKey(references=User)
-    context = ForeignKey(references=ContextName)
+class Item(Table):
+    author = ForeignKey(references=User)
+    context = ForeignKey(references=Context)
     text = Text()
 
 
-class ObjectRelation(Table):
-    autor = ForeignKey(references=User)
-    context_1 = ForeignKey(references=Object)
-    context_2 = ForeignKey(references=Object)
+class ItemRelation(Table):
+    author = ForeignKey(references=User)
+    item_1 = ForeignKey(references=Item)
+    item_2 = ForeignKey(references=Item)
 
 
 class Card(Table):
     id = UUID(primary_key=True)
     user = ForeignKey(references=User)
-    object_relation = ForeignKey(references=ObjectRelation)
+    item_relation = ForeignKey(references=ItemRelation)
     box_number = Integer()
     last_date = Timestamp()
     repeats_amount = Integer()

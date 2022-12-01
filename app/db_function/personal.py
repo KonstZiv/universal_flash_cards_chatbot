@@ -1,4 +1,4 @@
-from app.tables import User, UserContext, ContextName
+from app.tables import User, UserContext, Context
 
 
 async def add_new_user_db(data_telegram):
@@ -22,8 +22,8 @@ async def add_new_user_db(data_telegram):
 
 async def add_user_context_db(data_callback_query, user_db):
 
-    context_1 = await ContextName.objects().get(ContextName.name == data_callback_query['native_lang'])
-    context_2 = await ContextName.objects().get(ContextName.name == data_callback_query['target_lang'])
+    context_1 = await Context.objects().get(Context.name == data_callback_query['native_lang'])
+    context_2 = await Context.objects().get(Context.name == data_callback_query['target_lang'])
     user_context = UserContext(
         context_1=context_1,
         context_2=context_2,

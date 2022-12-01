@@ -20,7 +20,6 @@ async def start_message(msg: types.Message, state):
     await msg.answer(text=f"Hello, {msg.from_user.full_name}")
     user_context_db = await user_context_is_exist_db(msg.from_user.id)
 
-
     if user_context_db:
         await bot.send_message(user_context_db.user.telegram_user_id,
                                text=f"{user_context_db.user.first_name}, "
