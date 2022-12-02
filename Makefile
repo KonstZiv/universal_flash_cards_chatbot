@@ -51,14 +51,25 @@ docker: settings
 
 
 .PHONY:
+up: settings
+	docker-compose rm -asf
+	echo -e "$(CYAN)Creating Docker images$(COFF)"
+	docker-compose build
+	echo -e "$(CYAN)Running migrations$(COFF)"
+	make migrate
+	echo -e "$(CYAN)Upping Docker images$(COFF)"
+	docker-compose up -d
+	docker-compose logs -f
+	echo -e "$(CYAN)===================================================================="
+
+.PHONY:
 setup: pycharm settings ## Sets up the project in your local machine. Might take a while.
 	echo -e "$(CYAN)Creating Docker images$(COFF)"
 	make make-dirs
 	make poetry.lock
 	docker-compose build
-	#echo -e "$(CYAN)Running migrations$(COFF)"
-	#make migrate
-	echo -e "$(CYAN)Installing node modules$(COFF)"
+	echo -e "$(CYAN)Running migrations$(COFF)"
+	make migrate
 	echo -e "$(CYAN)===================================================================="
 	echo -e "SETUP SUCCEEDED"
 	echo -e "Run 'make docker' to start dockers.(COFF)"

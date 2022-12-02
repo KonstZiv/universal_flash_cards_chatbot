@@ -2,7 +2,6 @@
 
 # Coverage reports for Python
 # Locally, use html report. In CI, xml:some/path
-include .env
 PYTHON_COVERAGE_REPORT ?= html
 
 POETRY_WRAPPER_IMAGE_NAME ?= $(PROJECT_NAME)_poetry_wrapper
@@ -110,7 +109,7 @@ makemigrations: ## Make piccolo migrations
 
 
 .PHONY:
-migrate:
+migrate: ## Apply piccolo migrations
 	docker-compose run --rm python piccolo migrations forwards $(PROJECT_NAME) $(cmd)
 
 .PHONY:
