@@ -1,11 +1,12 @@
-import handlers.personal.keyboards as kb
+import app.handlers.personal.keyboards as kb
 from aiogram import Dispatcher, types
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Regexp
 from aiogram.dispatcher.filters.state import State, StatesGroup
-from base_function.translator import get_translate
-from create_bot import bot
-from scheme.transdata import ISO639_1, TranslateRequest
+from app.base_function.translator import get_translate
+from app.create_bot import bot
+from app.scheme.transdata import ISO639_1, TranslateRequest
+from app.db_function.personal import add_new_user_db, add_user_context_db, user_context_is_exist_db
 
 NATIVE_LANGUAGE = TARGET_LANGUAGE = ''
 
@@ -17,13 +18,22 @@ class FSMChooseLanguage(StatesGroup):
 
 async def start_message(msg: types.Message, state):
     await msg.answer(text=f"Hello, {msg.from_user.full_name}")
+    user_context_db = await user_context_is_exist_db(msg.from_user.id)
+
+    if user_context_db:
+        await bot.send_message(user_context_db.user.telegram_user_id,
+                               text=f"{user_context_db.user.first_name}, "
+                                    f"your native language is {user_context_db.context_1.name}, "
+                                    f"your target - {user_context_db.context_2.name}")
+        return
+
     await FSMChooseLanguage.first()
     await msg.answer(text="what is your native language?", reply_markup=kb.select_language_keyboard)
 
 
 async def select_native_language(callback_query: types.CallbackQuery, state: FSMContext):
-    global NATIVE_LANGUAGE, TARGET_LANGUAGE
-    NATIVE_LANGUAGE = callback_query.data
+    async with state.proxy() as data:
+        data['native_lang'] = callback_query.data
     await FSMChooseLanguage.next()
     await bot.send_message(callback_query.from_user.id,
                            text="what is your target language?",
@@ -31,16 +41,20 @@ async def select_native_language(callback_query: types.CallbackQuery, state: FSM
 
 
 async def select_target_language(callback_query: types.CallbackQuery, state: FSMContext):
-    global NATIVE_LANGUAGE, TARGET_LANGUAGE
-    TARGET_LANGUAGE = callback_query.data
-    await bot.send_message(callback_query.from_user.id,
-                           text=f"{callback_query.from_user.first_name}, "
-                           f"your native language is {NATIVE_LANGUAGE}, your target - {TARGET_LANGUAGE}")
+    async with state.proxy() as data:
+        data['target_lang'] = callback_query.data
+
+    user_db = await add_new_user_db(callback_query.from_user)
+    user_context_db = await add_user_context_db(data, user_db)
+
+    await bot.send_message(user_db.telegram_user_id,
+                           text=f"{user_db.first_name}, "
+                                f"your native language is {user_context_db.context_1.name}, "
+                                f"your target - {user_context_db.context_2.name}")
     await state.finish()
 
 
 async def translate_word(msg: types.Message):
-    global NATIVE_LANGUAGE, TARGET_LANGUAGE
     request = TranslateRequest(
         in_lang=ISO639_1[TARGET_LANGUAGE],
         out_lang=ISO639_1[NATIVE_LANGUAGE],
