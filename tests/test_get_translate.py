@@ -1,11 +1,9 @@
-from app.settings import settings   # noqa !!!used to load the environment variables required for the function get_translate
+from bot_app.settings import settings   # noqa !!!used to load the environment variables required for the function get_translate
 import pytest
 from pydantic import ValidationError
 from unittest.mock import patch
-from app.base_function.translator import translate_client
-
-from app.base_function.translator import get_translate
-from app.scheme.transdata import ISO639_1, TranslateRequest
+from bot_app.base_function.translator import translate_client, get_translate
+from bot_app.scheme.transdata import ISO639_1, TranslateRequest
 
 
 @pytest.mark.parametrize(
