@@ -206,7 +206,7 @@ class ISO639_1(str, Enum):
     Twi = "tw"
     Uighur = "ug"
     Uyghur = "ug"
-    Ukraine = "uk"
+    Ukrainian = "uk"
     Urdu = "ur"
     Uzbek = "uz"
     Venda = "ve"

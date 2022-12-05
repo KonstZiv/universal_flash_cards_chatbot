@@ -14,7 +14,7 @@ from app.settings import settings  # noqa !!!
     (
         (
             TranslateRequest(
-                in_lang=ISO639_1.English, out_lang=ISO639_1.Ukranian, line="makes"
+                in_lang=ISO639_1.English, out_lang=ISO639_1.Ukrainian, line="makes"
             ),
             {
                 "translatedText": "робить",
@@ -25,7 +25,7 @@ from app.settings import settings  # noqa !!!
         ),
         (
             TranslateRequest(
-                in_lang=ISO639_1.Russian, out_lang=ISO639_1.Ukranian, line="унылая пора"
+                in_lang=ISO639_1.Russian, out_lang=ISO639_1.Ukrainian, line="унылая пора"
             ),
             {
                 "translatedText": "похмура пора",
@@ -37,7 +37,7 @@ from app.settings import settings  # noqa !!!
         (
             TranslateRequest(
                 in_lang=ISO639_1.English,
-                out_lang=ISO639_1.Ukranian,
+                out_lang=ISO639_1.Ukrainian,
                 line="    assemble  ",
             ),
             {
@@ -77,7 +77,7 @@ def test_validate_in_data():
 
 def test_matching_indicated_and_recognized_lang():
     translate_request = TranslateRequest(
-        in_lang=ISO639_1.Haitian, out_lang=ISO639_1.Ukranian, line="    assemble  "
+        in_lang=ISO639_1.Haitian, out_lang=ISO639_1.Ukrainian, line="    assemble  "
     )
     mock_translate_return_value = {
         "translatedText": "зібрати",

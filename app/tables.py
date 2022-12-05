@@ -1,11 +1,13 @@
-from piccolo.columns.column_types import (UUID, ForeignKey, Integer, Text,
-                                          Timestamp, Varchar)
+import datetime
+
+from piccolo.columns.column_types import (UUID, BigInt, ForeignKey, Integer,
+                                          Text, Timestamp, Varchar)
 from piccolo.table import Table
 
 
 class User(Table, tablename="users"):
     id = UUID(primary_key=True)
-    telegram_user_id = Integer(unique=True)
+    telegram_user_id = BigInt(unique=True)
     telegram_language = Varchar()
     user_name = Varchar()
     first_name = Varchar()
@@ -18,37 +20,38 @@ class ContextClass(Table):
     name = Varchar()
 
 
-class ContextName(Table):
+class Context(Table):
     id = UUID(primary_key=True)
-    context_class_id = ForeignKey(references=ContextClass)
+    context_class = ForeignKey(references=ContextClass)
     name = Varchar()
+    name_alfa2 = Varchar()
     description = Text()
 
 
 class UserContext(Table):
     id = UUID(primary_key=True)
-    context_name_1 = ForeignKey(references=ContextName)
-    context_name_2 = ForeignKey(references=ContextName)
-    user_id = ForeignKey(references=User)
-    last_date = Timestamp()
+    context_1 = ForeignKey(references=Context)
+    context_2 = ForeignKey(references=Context)
+    user = ForeignKey(references=User)
+    last_date = Timestamp(default=datetime.datetime.now())
 
 
-class Object(Table):
-    autor_id = ForeignKey(references=User)
-    context_name_id = ForeignKey(references=ContextName)
+class Item(Table):
+    author = ForeignKey(references=User)
+    context = ForeignKey(references=Context)
     text = Text()
 
 
-class ObjectRelation(Table):
-    autor_id = ForeignKey(references=User)
-    context_name_1 = ForeignKey(references=Object)
-    context_name_2 = ForeignKey(references=Object)
+class ItemRelation(Table):
+    author = ForeignKey(references=User)
+    item_1 = ForeignKey(references=Item)
+    item_2 = ForeignKey(references=Item)
 
 
 class Card(Table):
     id = UUID(primary_key=True)
-    user_id = ForeignKey(references=User)
-    object_relation_id = ForeignKey(references=ObjectRelation)
+    user = ForeignKey(references=User)
+    item_relation = ForeignKey(references=ItemRelation)
     box_number = Integer()
     last_date = Timestamp()
     repeats_amount = Integer()
