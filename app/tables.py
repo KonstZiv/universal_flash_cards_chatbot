@@ -1,7 +1,8 @@
 import datetime
 
+from piccolo.columns.column_types import (UUID, BigInt, ForeignKey, Integer,
+                                          Text, Timestamp, Varchar)
 from piccolo.table import Table
-from piccolo.columns.column_types import UUID, Integer, Varchar, Text, Timestamp, ForeignKey, BigInt
 
 
 class User(Table, tablename="users"):
