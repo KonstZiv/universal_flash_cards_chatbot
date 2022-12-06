@@ -1,5 +1,5 @@
 from aiogram import types
-from aiogram.utils import executor
+#from aiogram.utils import executor
 
 from app.create_bot import dp
 from app.handlers import register_all_handlers
@@ -30,4 +30,4 @@ async def on_startup(_):
 
 if __name__ == "__main__":
     register_all_handlers(dp)
-    executor.start_polling(dp, on_startup=on_startup)
+    dp.start_polling(dp, on_startup=on_startup)

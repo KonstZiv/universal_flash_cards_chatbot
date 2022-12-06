@@ -1,7 +1,10 @@
 from aiogram import Dispatcher, types
-from aiogram.dispatcher import FSMContext
-from aiogram.dispatcher.filters import Regexp
-from aiogram.dispatcher.filters.state import State, StatesGroup
+from aiogram.fsm.context import FSMContext
+from aiogram.fsm.state import StatesGroup, State
+
+#from aiogram.dispatcher import FSMContext
+#from aiogram.dispatcher.filters import Regexp
+#from aiogram.dispatcher.filters.state import State, StatesGroup
 
 import app.handlers.personal.keyboards as kb
 from app.base_function.translator import get_translate
