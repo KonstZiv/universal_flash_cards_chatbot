@@ -1,7 +1,8 @@
+import asyncio
+import logging
 from aiogram import types
-#from aiogram.utils import executor
 
-from app.create_bot import dp
+from app.create_bot import dp, bot
 from app.handlers import register_all_handlers
 from app.scheme.transdata import ISO639_1
 from app.tables import Context
@@ -28,6 +29,17 @@ async def on_startup(_):
     await add_languages_to_context()
 
 
-if __name__ == "__main__":
+async def main(logger: logging.Logger) -> None:
+    logging.basicConfig(level=logging.DEBUG)
+
     register_all_handlers(dp)
-    dp.start_polling(dp, on_startup=on_startup)
+    await dp.start_polling(bot, on_startup=on_startup, logger=logger)
+
+
+if __name__ == "__main__":
+    logger: logging.Logger = logging.getLogger(__name__)
+    try:
+        asyncio.run(main(logger))
+        logger.info('Bot started')
+    except (KeyboardInterrupt, SystemExit):
+        logger.info('Bot stopped')
