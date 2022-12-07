@@ -74,4 +74,3 @@ def register_handler_start(dp: Dispatcher):
     dp.callback_query.register(select_native_language, FSMChooseLanguage.native_language)
     dp.callback_query.register(select_target_language, FSMChooseLanguage.target_language)
     # dp.callback_query.register(translate_word, CommandObject(regexp_match=Match("[a-zA-Z ]")))
-
