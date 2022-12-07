@@ -1,5 +1,5 @@
-from aiogram.types import (InlineKeyboardButton, InlineKeyboardMarkup,
-                           KeyboardButton, ReplyKeyboardMarkup)
+from aiogram.utils.keyboard import KeyboardButton, InlineKeyboardButton, \
+    ReplyKeyboardBuilder, InlineKeyboardBuilder
 
 languages = [
     "Albanian",
@@ -15,19 +15,21 @@ languages = [
 ]
 
 markup_down = (
-    ReplyKeyboardMarkup(resize_keyboard=True)
-    .add(KeyboardButton("Add new word"))
-    .add(KeyboardButton("Train"))
-)
+    ReplyKeyboardBuilder()
+    .add(KeyboardButton(text="Add new word"))
+    .add(KeyboardButton(text="Train"))
+).as_markup()
 
-select_language_keyboard = InlineKeyboardMarkup(resize_keyboard=True)
+
+select_language_keyboard = InlineKeyboardBuilder()
 
 for i in range(0, len(languages) - 1, 3):
     select_language_keyboard.add(
-        InlineKeyboardButton(languages[i], callback_data=languages[i]),
-        InlineKeyboardButton(languages[i + 1], callback_data=languages[i + 1]),
-        InlineKeyboardButton(languages[i + 2], callback_data=languages[i + 2]),
+        InlineKeyboardButton(text=languages[i], callback_data=languages[i]),
+        InlineKeyboardButton(text=languages[i + 1], callback_data=languages[i + 1]),
+        InlineKeyboardButton(text=languages[i + 2], callback_data=languages[i + 2]),
     )
 select_language_keyboard.add(
-    InlineKeyboardButton(languages[-1], callback_data=languages[-1])
+    InlineKeyboardButton(text=languages[-1], callback_data=languages[-1])
 )
+select_language_keyboard = select_language_keyboard.as_markup()
