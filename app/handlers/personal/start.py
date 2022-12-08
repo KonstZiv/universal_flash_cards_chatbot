@@ -1,4 +1,4 @@
-from aiogram import Dispatcher, types
+from aiogram import Dispatcher, types, F
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import StatesGroup, State
@@ -12,12 +12,18 @@ from app.tables import UserContext
 
 
 class FSMChooseLanguage(StatesGroup):
+    get_user_data = State()
     native_language = State()
     target_language = State()
 
 
-async def start_message(msg: types.Message, state: FSMContext) -> None:
+async def start(msg: types.Message, state: FSMContext) -> None:
+    await state.set_state(FSMChooseLanguage.get_user_data)
     await msg.answer(text=f"Hello, {msg.from_user.full_name}")
+    await get_user_data(msg, state)
+
+
+async def get_user_data(msg: types.Message, state: FSMContext) -> None:
     user_context_db: UserContext = await user_context_is_exist_db(msg.from_user.id)
 
     if user_context_db:
@@ -66,11 +72,14 @@ async def translate_word(msg: types.Message):
         line=msg.text,
     )
     translated = get_translate(input_=request).translated_line
+    await msg.answer(f"I can't translate")
     await msg.answer(f'you wrote {msg.text}. Translated - "{translated}"')
 
 
 def register_handler_start(dp: Dispatcher):
-    dp.message.register(start_message, Command(commands=["start", "початок"]))
+    dp.message.register(translate_word, F.test.regexp("[a-zA-Z ]"))  # regexp_match=Match("[a-zA-Z ]")))
+    dp.message.register(start, Command(commands=["start", "початок"]))
+    dp.message.register(get_user_data, FSMChooseLanguage.get_user_data)
     dp.callback_query.register(select_native_language, FSMChooseLanguage.native_language)
     dp.callback_query.register(select_target_language, FSMChooseLanguage.target_language)
-    # dp.callback_query.register(translate_word, CommandObject(regexp_match=Match("[a-zA-Z ]")))
+    dp.message.register(translate_word, F.regexp("[a-zA-Z ]")) #regexp_match=Match("[a-zA-Z ]")))

@@ -24,12 +24,12 @@ markup_down = (
 select_language_keyboard = InlineKeyboardBuilder()
 
 for i in range(0, len(languages) - 1, 3):
-    select_language_keyboard.add(
+    select_language_keyboard.row(
         InlineKeyboardButton(text=languages[i], callback_data=languages[i]),
         InlineKeyboardButton(text=languages[i + 1], callback_data=languages[i + 1]),
         InlineKeyboardButton(text=languages[i + 2], callback_data=languages[i + 2]),
     )
-select_language_keyboard.add(
+select_language_keyboard.row(
     InlineKeyboardButton(text=languages[-1], callback_data=languages[-1])
 )
-select_language_keyboard = select_language_keyboard.as_markup()
+select_language_keyboard = select_language_keyboard.as_markup(resize_keyboard=True)
