@@ -18,9 +18,13 @@ class FSMChooseLanguage(StatesGroup):
 
 
 async def start(msg: types.Message, state: FSMContext) -> None:
+    await greeting(msg, state)
+    await get_user_data(msg, state)
+
+
+async def greeting(msg: types.Message, state: FSMContext) -> None:
     await state.set_state(FSMChooseLanguage.get_user_data)
     await msg.answer(text=f"Hello, {msg.from_user.full_name}")
-    await get_user_data(msg, state)
 
 
 async def get_user_data(msg: types.Message, state: FSMContext) -> None:

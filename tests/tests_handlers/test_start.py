@@ -5,7 +5,7 @@ from unittest.mock import patch
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.storage.base import StorageKey
 
-from app.handlers.personal.start import FSMChooseLanguage, start, select_native_language
+from app.handlers.personal.start import FSMChooseLanguage, start, select_native_language, greeting, get_user_data
 from tests.tests_handlers.utils import TEST_USER, TEST_USER_CHAT
 
 import app.handlers.personal.keyboards as kb
@@ -13,8 +13,7 @@ import app.handlers.personal.keyboards as kb
 
 
 @pytest.mark.asyncio
-#@patch('await get_user_data')
-async def test_start_handler(storage, bot):
+async def test_greeting_handler(storage, bot):
     msg = AsyncMock()
     call = AsyncMock()
     state = FSMContext(
@@ -25,17 +24,25 @@ async def test_start_handler(storage, bot):
     get_user_data = AsyncMock()
     user_context_db = AsyncMock()
 
-    await start(msg, state=state)
-    assert await state.get_state() == FSMChooseLanguage.native_language
-    # calls = []
-    # calls.append(msg.answer(text=f"Hello, {msg.from_user.full_name}"))
-    # calls.append(msg.answer(
-    #     text="what is your native language?",
-    #     reply_markup=kb.select_language_keyboard)
-    # )
-    # msg.answer.assert_has_calls(calls)
+    await greeting(msg, state=state)
+    msg.answer.assert_called_with(text=f"Hello, {msg.from_user.full_name}")
 
-    msg.answer.assert_called_with(text="what is your native language? ", reply_markup=kb.select_language_keyboard)
+
+@pytest.mark.asyncio
+async def test_get_user_data_handler(storage, bot):
+    msg = AsyncMock()
+    call = AsyncMock()
+    state = FSMContext(
+        bot=bot,
+        storage=storage,
+        key=StorageKey(bot_id=bot.id, user_id=TEST_USER.id, chat_id=TEST_USER_CHAT.id),
+    )
+    get_user_data = AsyncMock()
+    user_context_db = AsyncMock()
+
+    await greeting(msg, state=state)
+
+    msg.answer.assert_called_with(text="what is your native language?", reply_markup=kb.select_language_keyboard)
 
 @pytest.mark.asyncio
 async def test_select_native_language(storage, bot):
