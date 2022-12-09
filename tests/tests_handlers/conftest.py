@@ -1,13 +1,14 @@
-# from pathlib import Path
 import asyncio
 
 import pytest
 import pytest_asyncio
-#from aiogram.dispatcher.fsm.storage.memory import MemoryStorage
+from aiogram.fsm.context import FSMContext
+from aiogram.fsm.storage.base import StorageKey
 from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram import Bot, Dispatcher
 
 from tests.tests_handlers.mocked_bot import MockedBot
+from tests.tests_handlers.utils import TEST_USER, TEST_USER_CHAT
 
 
 @pytest_asyncio.fixture(scope="session")
@@ -19,7 +20,7 @@ async def storage():
         await tmp_storage.close()
 
 
-@pytest_asyncio.fixture()
+@pytest_asyncio.fixture(scope="session")
 def bot():
     bot = MockedBot()
     token = Bot.set_current(bot)
@@ -45,3 +46,13 @@ def event_loop():
     loop = policy.new_event_loop()
     yield loop
     loop.close()
+
+
+@pytest.fixture(scope="session")
+def state(bot, storage):
+
+    return FSMContext(
+        bot=bot,
+        storage=storage,
+        key=StorageKey(bot_id=bot.id, user_id=TEST_USER.id, chat_id=TEST_USER_CHAT.id),
+    )

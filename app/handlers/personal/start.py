@@ -36,6 +36,7 @@ async def get_user_data(msg: types.Message, state: FSMContext) -> None:
             f"your native language is {user_context_db.context_1.name}, "
             f"your target - {user_context_db.context_2.name}",
         )
+        await state.clear()
         return
 
     await state.set_state(FSMChooseLanguage.native_language)
