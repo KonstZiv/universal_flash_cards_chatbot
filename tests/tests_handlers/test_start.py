@@ -11,10 +11,10 @@ import app.handlers.personal.keyboards as kb
 
 
 @pytest.mark.asyncio
-async def test_greeting_handler(state: FSMContext):
+async def test_greeting_handler():
     msg: AsyncMock = AsyncMock()
 
-    await greeting(msg, state=state)
+    await greeting(msg)
     msg.answer.assert_called_with(text=f"Hello, {msg.from_user.full_name}")
 
 
@@ -40,7 +40,6 @@ async def test_get_user_data_user_exist(state: FSMContext):
              f"your native language is {user_context_db.context_1.name}, "
              f"your target - {user_context_db.context_2.name}",
     )
-    assert await state.get_state() is None
 
 
 @pytest.mark.asyncio

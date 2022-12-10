@@ -12,18 +12,16 @@ from app.tables import UserContext
 
 
 class FSMChooseLanguage(StatesGroup):
-    get_user_data = State()
     native_language = State()
     target_language = State()
 
 
 async def start(msg: types.Message, state: FSMContext) -> None:
-    await greeting(msg, state)
+    await greeting(msg)
     await get_user_data(msg, state)
 
 
-async def greeting(msg: types.Message, state: FSMContext) -> None:
-    await state.set_state(FSMChooseLanguage.get_user_data)
+async def greeting(msg: types.Message) -> None:
     await msg.answer(text=f"Hello, {msg.from_user.full_name}")
 
 
@@ -33,10 +31,9 @@ async def get_user_data(msg: types.Message, state: FSMContext) -> None:
     if user_context_db:
         await msg.answer(
             text=f"{user_context_db.user.first_name}, "
-            f"your native language is {user_context_db.context_1.name}, "
-            f"your target - {user_context_db.context_2.name}",
+                 f"your native language is {user_context_db.context_1.name}, "
+                 f"your target - {user_context_db.context_2.name}",
         )
-        await state.clear()
         return
 
     await state.set_state(FSMChooseLanguage.native_language)
@@ -63,8 +60,8 @@ async def select_target_language(callback_query: types.CallbackQuery, state: FSM
 
     await callback_query.message.answer(
         text=f"{user_db.first_name}, "
-        f"your native language is {user_context_db.context_1.name}, "
-        f"your target - {user_context_db.context_2.name}",
+             f"your native language is {user_context_db.context_1.name}, "
+             f"your target - {user_context_db.context_2.name}",
     )
     await state.clear()
 
@@ -84,7 +81,7 @@ async def translate_word(msg: types.Message):
 def register_handler_start(dp: Dispatcher):
     dp.message.register(translate_word, F.test.regexp("[a-zA-Z ]"))  # regexp_match=Match("[a-zA-Z ]")))
     dp.message.register(start, Command(commands=["start", "початок"]))
-    dp.message.register(get_user_data, FSMChooseLanguage.get_user_data)
+    dp.message.register(greeting, Command(commands=["hello"]))
+    dp.message.register(get_user_data)
     dp.callback_query.register(select_native_language, FSMChooseLanguage.native_language)
     dp.callback_query.register(select_target_language, FSMChooseLanguage.target_language)
-    dp.message.register(translate_word, F.regexp("[a-zA-Z ]"))  # regexp_match=Match("[a-zA-Z ]")))
