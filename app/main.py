@@ -9,9 +9,9 @@ from app.tables import Context
 
 
 async def set_default_commands():
-    await dp.bot.set_my_commands(
+    await bot.set_my_commands(
         [
-            types.BotCommand("start", "start"),
+            types.BotCommand(command="start", description="start"),
         ]
     )
 
@@ -24,7 +24,7 @@ async def add_languages_to_context():
             await new_language.save()
 
 
-async def on_startup(_):
+async def on_startup():
     await set_default_commands()
     await add_languages_to_context()
 
@@ -33,13 +33,15 @@ async def main(logger: logging.Logger) -> None:
     logging.basicConfig(level=logging.DEBUG)
 
     register_all_handlers(dp)
-    await dp.start_polling(bot, on_startup=on_startup, logger=logger)
+    dp.startup.register(on_startup)
+    await dp.start_polling(bot, logger=logger)
 
 
 if __name__ == "__main__":
     logger: logging.Logger = logging.getLogger(__name__)
     try:
-        asyncio.run(main(logger))
         logger.info('Bot started')
+        asyncio.run(main(logger))
+
     except (KeyboardInterrupt, SystemExit):
         logger.info('Bot stopped')
