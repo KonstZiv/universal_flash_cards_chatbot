@@ -59,6 +59,7 @@ def get_message(text: str):
                    video_chat_started=None, video_chat_ended=None, video_chat_participants_invited=None,
                    web_app_data=None, reply_markup=None)
 
+
 def get_update(message: Message = None, callback_query: CallbackQuery = None):
     return Update(
         update_id=187,

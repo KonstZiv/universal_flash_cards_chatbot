@@ -77,7 +77,7 @@ async def translate_word(msg: types.Message):
         line=msg.text,
     )
     translated = get_translate(input_=request).translated_line
-    await msg.answer(f"I can't translate")
+    await msg.answer("I can't translate")
     await msg.answer(f'you wrote {msg.text}. Translated - "{translated}"')
 
 
@@ -87,4 +87,4 @@ def register_handler_start(dp: Dispatcher):
     dp.message.register(get_user_data, FSMChooseLanguage.get_user_data)
     dp.callback_query.register(select_native_language, FSMChooseLanguage.native_language)
     dp.callback_query.register(select_target_language, FSMChooseLanguage.target_language)
-    dp.message.register(translate_word, F.regexp("[a-zA-Z ]")) #regexp_match=Match("[a-zA-Z ]")))
+    dp.message.register(translate_word, F.regexp("[a-zA-Z ]"))  # regexp_match=Match("[a-zA-Z ]")))
