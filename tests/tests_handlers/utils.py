@@ -1,28 +1,15 @@
 from datetime import datetime
 
 from aiogram.types import User, Chat, Message, Update, CallbackQuery
-
-TEST_USER = User(
-    id=123,
-    is_bot=False,
-    first_name='Test',
-    last_name='Bot',
-    username='testbot',
-    language_code='uk-UK',
-    is_premium=False,
-    added_to_attachment_menu=None,
-    can_join_groups=None,
-    can_read_all_group_messages=None,
-    supports_inline_queries=None
-)
+from tests.utils import TELEGRAM_USER_1
 
 TEST_USER_CHAT = Chat(
     id=2,
     type='private',
     title=None,
-    username=TEST_USER.username,
-    first_name=TEST_USER.first_name,
-    last_name=TEST_USER.last_name,
+    username=TELEGRAM_USER_1.username,
+    first_name=TELEGRAM_USER_1.first_name,
+    last_name=TELEGRAM_USER_1.last_name,
     photo=None,
     bio=None,
     has_private_forwards=None,
@@ -43,7 +30,7 @@ TEST_USER_CHAT = Chat(
 
 
 def get_message(text: str):
-    return Message(message_id=123, date=datetime.now(), chat=TEST_USER_CHAT, from_user=TEST_USER,
+    return Message(message_id=123, date=datetime.now(), chat=TEST_USER_CHAT, from_user=TELEGRAM_USER_1,
                    sender_chat=TEST_USER_CHAT, forward_from=None, forward_from_chat=None, forward_from_message_id=None,
                    forward_signature=None, forward_sender_name=None, forward_date=None, is_automatic_forward=None,
                    reply_to_message=None, via_bot=None, edit_date=None, has_protected_content=None,

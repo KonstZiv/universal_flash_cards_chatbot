@@ -8,7 +8,8 @@ from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram import Bot, Dispatcher
 
 from tests.tests_handlers.mocked_bot import MockedBot
-from tests.tests_handlers.utils import TEST_USER, TEST_USER_CHAT
+from tests.tests_handlers.utils import TEST_USER_CHAT
+from tests.utils import TELEGRAM_USER_1 as TEST_USER
 
 
 @pytest_asyncio.fixture(scope="session")
