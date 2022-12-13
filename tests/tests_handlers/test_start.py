@@ -21,7 +21,9 @@ async def test_greeting_handler():
 @pytest.mark.asyncio
 async def test_get_user_data_user_not_exist(state: FSMContext):
     msg: AsyncMock = AsyncMock(name='msg')
-    await get_user_data(msg, state=state)
+    with patch.object(start, 'user_context_is_exist_db', return_value=False) as is_user_exist:
+        await get_user_data(msg, state=state)
+    is_user_exist.assert_called_once_with(msg.from_user.id)
     msg.answer.assert_called_with(text="what is your native language?", reply_markup=kb.select_language_keyboard)
     assert msg.answer.call_args.kwargs.get('text') == "what is your native language?"
     assert await state.get_state() == FSMChooseLanguage.native_language

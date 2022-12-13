@@ -1,18 +1,7 @@
-from piccolo.conf.apps import AppRegistry
-from piccolo.engine.postgres import PostgresEngine
-
-from app.settings import settings
+from piccolo_conf import *
 
 DB = PostgresEngine(
     config={
-        "host": settings.POSTGRES_HOST,
-        "database": 'my_test_db',
-        "user": settings.POSTGRES_USER,
-        "password": settings.POSTGRES_PASSWORD,
+        "database": settings.POSTGRES_TEST_DATABASE_NAME
     }
 )
-
-
-# A list of paths to piccolo apps
-# e.g. ['blog.piccolo_app']
-APP_REGISTRY = AppRegistry(apps=["app.piccolo_app"])

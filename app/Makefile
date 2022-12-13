@@ -35,6 +35,14 @@ test-py:  ## Run tests on Python code
 	docker-compose run python pytest $(args)
 
 .PHONY:
+test-loc:
+	psql -c "DROP DATABASE IF EXISTS $(POSTGRES_TEST_DATABASE_NAME);"
+	psql -c "CREATE DATABASE $(POSTGRES_TEST_DATABASE_NAME);"
+	#export PICCOLO_CONF="piccolo_conf_test"
+	piccolo migrations forwards all
+	piccolo tester run
+
+.PHONY:
 coverage-py:  ## Runs python/django test coverage calculation
 	docker-compose run --rm -e COVERAGE_FILE=/home/user/.coverage python \
 		pytest --cov=. --cov-report $(PYTHON_COVERAGE_REPORT) --cov-report term-missing $(cmd)

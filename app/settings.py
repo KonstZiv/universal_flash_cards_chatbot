@@ -11,6 +11,7 @@ class Settings(BaseSettings):
     POSTGRES_HOST = os.getenv("POSTGRES_HOST", "postgres")
     POSTGRES_PORT = os.getenv("POSTGRES_PORT", 5432)
     POSTGRES_DATABASE_NAME = os.getenv("POSTGRES_DATABASE_NAME", "bot")
+    POSTGRES_TEST_DATABASE_NAME = os.getenv("POSTGRES_TEST_DATABASE_NAME", "my_test_db")
     POSTGRES_USER = os.getenv("POSTGRES_USER", "bot")
     POSTGRES_PASSWORD = os.getenv("POSTGRES_PASSWORD", "bot")
     GOOGLE_APPLICATION_CREDENTIALS = os.getenv("POSTGRES_PASSWORD")
