@@ -16,18 +16,20 @@ jobs:
         with:
           # VPS IP
           host: ${{ secrets.VPS_SSH_HOST }}
-
           # VPS username
           username: ${{ secrets.VPS_SSH_USERNAME }}
-
           # SSH key (copy it from your local machine)
           key: ${{ secrets.VPS_SSH_SECRET }}
           # SSH port
           port: ${{ secrets.VPS_SSH_PORT }}
           # passphrase
-          passphrase: ${{ secrets.SSH_PASSPHRASE }}
+          # passphrase: ${{ secrets.SSH_PASSPHRASE }}
           script: |
+            pwd
+            eval "$(ssh-agent)"
+            ssh-add ~/.ssh/deploy_id_ed25519
             cd ${{ secrets.PROJECT_PATH }}
+            pwd
             git pull origin main
               make down
               make build
