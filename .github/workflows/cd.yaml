@@ -27,7 +27,7 @@ jobs:
           script: |
             pwd
             eval "$(ssh-agent)"
-            ssh-add ~/.ssh/deploy_id_ed25519
+            ssh-add ~/.ssh/id_rsa_github.ssh
             cd ${{ secrets.PROJECT_PATH }}
             pwd
             git pull origin main
