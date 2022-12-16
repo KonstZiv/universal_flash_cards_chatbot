@@ -118,3 +118,16 @@ include $(BACKEND_DIR)/Makefile
 # Currently, no cypress installed
 # include Makefile-cypress
 
+# ________COMMANDS FOR CD ON TESTBOT EXAMPLE ________
+
+.PHONY:
+build:
+	docker-compose up --build -d --remove-orphans
+
+.PHONY:
+down:
+	docker-compose down
+
+.PHONY:
+show_logs:
+	docker-compose logs
