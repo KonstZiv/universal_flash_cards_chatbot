@@ -44,6 +44,21 @@ docker-rebuild:
 
 
 .PHONY:
+down:
+	docker-compose down
+
+
+.PHONY:
+build:
+	docker-compose build up --build -d --remove-orphans
+
+
+.PHONY:
+show_logs:
+	docker-compose logs
+
+
+.PHONY:
 docker: settings
 	docker-compose build
 	docker-compose up -d
