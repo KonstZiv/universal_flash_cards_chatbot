@@ -31,7 +31,8 @@ jobs:
             cd ${{ secrets.PROJECT_PATH }}
             pwd
             git pull origin main
-            docker-compose down
-            docker-compose up --build -d --remove-orphans
-            echo "Deleting old image(s)..."
-            docker image prune -a -f
+            docker-compose rm -sf
+            docker-compose create --build
+            docker-compose run -rm python piccolo migrations forwards app
+            docker-compose up -d
+            docker-compose logs -f
