@@ -33,5 +33,4 @@ jobs:
             docker-compose create --build
             docker-compose run --rm python piccolo migrations forwards app
             docker-compose up -d
-            docker-compose logs -f
             docker image prune -af
