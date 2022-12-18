@@ -1,13 +1,5 @@
-import asyncio
-
-import pytest
 import pytest_asyncio
-
-from typing import Any, Optional
-
-
-
-from app.tables import Context, User, UserContext
+from app.tables import User
 from tests.tests_db.utils import TABLE_USER_1
 
 

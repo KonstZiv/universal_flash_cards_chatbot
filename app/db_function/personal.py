@@ -8,9 +8,6 @@ async def add_new_user_db(data_telegram: aiogram.types.User) -> User:
     last_name: str = data_telegram.last_name
     if not last_name:
         last_name: str = ""
-    user_existed: Optional[User] = await User.objects(User.all_related()).get(User.telegram_user_id == data_telegram.id)
-    if user_existed:
-        return user_existed
     user: User = User(
         telegram_user_id=data_telegram.id,
         telegram_language=data_telegram.language_code,
@@ -38,7 +35,7 @@ async def add_user_context_db(data_callback_query, user_db):
     return user_context
 
 
-async def user_context_is_exist_db(telegram_user_id):
+async def get_user_context_db(telegram_user_id) -> Optional[UserContext]:
     user_context = (
         await UserContext.objects(UserContext.all_related())
         .get(UserContext.user.telegram_user_id == telegram_user_id)
@@ -47,3 +44,8 @@ async def user_context_is_exist_db(telegram_user_id):
     )
 
     return user_context
+
+
+async def get_user_db(data_telegram: aiogram.types.User) -> Optional[User]:
+    user: Optional[User] = await User.objects(User.all_related()).get(User.telegram_user_id == data_telegram.id)
+    return user

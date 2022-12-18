@@ -1,3 +1,5 @@
+from typing import Optional
+
 from aiogram import Dispatcher, types, F
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
@@ -6,9 +8,9 @@ from aiogram.fsm.state import StatesGroup, State
 import app.handlers.personal.keyboards as kb
 from app.base_function.translator import get_translate
 from app.db_function.personal import (add_new_user_db, add_user_context_db,
-                                      user_context_is_exist_db)
+                                      get_user_db, get_user_context_db)
 from app.scheme.transdata import ISO639_1, TranslateRequest
-from app.tables import UserContext
+from app.tables import UserContext, User
 
 
 class FSMChooseLanguage(StatesGroup):
@@ -26,7 +28,7 @@ async def greeting(msg: types.Message) -> None:
 
 
 async def get_user_data(msg: types.Message, state: FSMContext) -> None:
-    user_context_db: UserContext = await user_context_is_exist_db(msg.from_user.id)
+    user_context_db: Optional[UserContext] = await get_user_context_db(msg.from_user.id)
 
     if user_context_db:
         await msg.answer(
@@ -53,8 +55,9 @@ async def select_native_language(callback_query: types.CallbackQuery, state: FSM
 
 async def select_target_language(callback_query: types.CallbackQuery, state: FSMContext) -> None:
     await state.update_data({"target_lang": callback_query.data})
-
-    user_db = await add_new_user_db(callback_query.from_user)
+    user_db = await get_user_db(callback_query.from_user)
+    if user_db is None:
+        user_db: Optional[User] = await add_new_user_db(callback_query.from_user)
     state_data = await state.get_data()
     user_context_db = await add_user_context_db(state_data, user_db)
 

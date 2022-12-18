@@ -21,7 +21,7 @@ async def test_greeting_handler():
 @pytest.mark.asyncio
 async def test_get_user_data_user_not_exist(state: FSMContext):
     msg: AsyncMock = AsyncMock(name='msg')
-    with patch.object(start, 'user_context_is_exist_db', return_value=False) as is_user_exist:
+    with patch.object(start, 'get_user_context_db', return_value=False) as is_user_exist:
         await get_user_data(msg, state=state)
     is_user_exist.assert_called_once_with(msg.from_user.id)
     msg.answer.assert_called_with(text="what is your native language?", reply_markup=kb.select_language_keyboard)
@@ -33,7 +33,7 @@ async def test_get_user_data_user_not_exist(state: FSMContext):
 async def test_get_user_data_user_exist(state: FSMContext):
     msg: AsyncMock = AsyncMock(name='msg')
     user_context_db: AsyncMock = AsyncMock(name='user_cont')
-    with patch.object(start, 'user_context_is_exist_db', return_value=user_context_db) as is_user_exist:
+    with patch.object(start, 'get_user_context_db', return_value=user_context_db) as is_user_exist:
         await get_user_data(msg, state)
 
     is_user_exist.assert_called_once_with(msg.from_user.id)
