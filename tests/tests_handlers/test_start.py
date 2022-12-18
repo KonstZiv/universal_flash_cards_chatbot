@@ -48,6 +48,7 @@ async def test_select_native_language(state: FSMContext):
 
     await select_native_language(callback_query=call, state=state)
     assert await state.get_state() == FSMChooseLanguage.target_language
+    assert await state.get_data() == {'native_lang': call.data}
     call.message.answer.assert_called_with(
         text="what is your target language?",
         reply_markup=kb.select_language_keyboard,
