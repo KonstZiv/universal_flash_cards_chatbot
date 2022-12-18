@@ -22,8 +22,6 @@ jobs:
           key: ${{ secrets.VPS_SSH_SECRET }}
           # SSH port
           port: ${{ secrets.VPS_SSH_PORT }}
-          # passphrase
-          # passphrase: ${{ secrets.SSH_PASSPHRASE }}
           script: |
             pwd
             eval "$(ssh-agent)"
@@ -33,6 +31,7 @@ jobs:
             git pull origin main
             docker-compose rm -sf
             docker-compose create --build
-            docker-compose run -rm python piccolo migrations forwards app
+            docker-compose run --rm python piccolo migrations forwards app
             docker-compose up -d
             docker-compose logs -f
+            docker image prune -af

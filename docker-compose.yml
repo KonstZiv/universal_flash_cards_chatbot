@@ -2,10 +2,12 @@
 
 version: '3.8'
 
-x-common-spec: &common-spec
+x-common-spec:
+  &common-spec
   env_file: .env
 
-x-python-container-spec: &python-container-spec
+x-python-container-spec:
+  &python-container-spec
   <<: *common-spec
   build:
     context: .
@@ -18,7 +20,6 @@ x-python-container-spec: &python-container-spec
   depends_on:
     - postgres
 
-
 services:
   python:
     <<: *python-container-spec
@@ -27,7 +28,7 @@ services:
     command: python3 -m app.main
 
   postgres:
-    image: postgres:12
+    image: postgres:15-alpine
     # Comment in the following lines to connect to your Dockerized instance of Postgres from your host machine.
     # Change the host port (before colon) if you have a local instance of Postgres running on that port.
     # ports:
@@ -42,4 +43,3 @@ services:
 
 volumes:
   postgres: {}
-
