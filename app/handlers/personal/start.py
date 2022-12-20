@@ -59,7 +59,6 @@ async def select_target_language(callback_query: types.CallbackQuery, state: FSM
     if user_db is None:
         user_db: Optional[User] = await add_user_db(callback_query.from_user)
 
-
     state_data = await state.get_data()
     user_context_db = await add_user_context_db(state_data, user_db)
 

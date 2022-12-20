@@ -1,6 +1,4 @@
-from datetime import datetime
-
-from aiogram.types import User, Chat, Message, Update, CallbackQuery
+from aiogram.types import User
 from app import tables
 
 TELEGRAM_USER_1 = User(
@@ -32,18 +30,18 @@ TELEGRAM_USER_2 = User(
 )
 
 
-TABLE_USER_1 = tables.User(
-    telegram_user_id=TELEGRAM_USER_1.id,
-    telegram_language=TELEGRAM_USER_1.language_code,
-    user_name=TELEGRAM_USER_1.full_name,
-    first_name=TELEGRAM_USER_1.first_name,
-    last_name=TELEGRAM_USER_1.last_name
-)
-
-TABLE_USER_2 = tables.User(
-    telegram_user_id=TELEGRAM_USER_2.id,
-    telegram_language=TELEGRAM_USER_2.language_code,
-    user_name=TELEGRAM_USER_2.full_name,
-    first_name=TELEGRAM_USER_2.first_name,
-    last_name=TELEGRAM_USER_2.last_name
-)
+# TABLE_USER_1 = tables.User(
+#     telegram_user_id=TELEGRAM_USER_1.id,
+#     telegram_language=TELEGRAM_USER_1.language_code,
+#     user_name=TELEGRAM_USER_1.full_name,
+#     first_name=TELEGRAM_USER_1.first_name,
+#     last_name=TELEGRAM_USER_1.last_name
+# )
+#
+# TABLE_USER_2 = tables.User(
+#     telegram_user_id=TELEGRAM_USER_2.id,
+#     telegram_language=TELEGRAM_USER_2.language_code,
+#     user_name=TELEGRAM_USER_2.full_name,
+#     first_name=TELEGRAM_USER_2.first_name,
+#     last_name=TELEGRAM_USER_2.last_name
+# )

@@ -1085,6 +1085,22 @@ url = "https://pypi.org/simple"
 reference = "the_pypi"
 
 [[package]]
+name = "parameterized"
+version = "0.8.1"
+description = "Parameterized testing with any Python test framework"
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.extras]
+dev = ["jinja2"]
+
+[package.source]
+type = "legacy"
+url = "https://pypi.org/simple"
+reference = "the_pypi"
+
+[[package]]
 name = "parso"
 version = "0.8.3"
 description = "A Python Parser"
@@ -1878,7 +1894,7 @@ reference = "the_pypi"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "f2801fb43ea480a44c0de5baf0ed8b225ca616ee5cf6732419ced13ce9cddf29"
+content-hash = "d1b892c77825f6c95b4b6ed8cd47d3ef2978621241c5798cc3fda0d0b5ffdfed"
 
 [metadata.files]
 aiofiles = [
@@ -2690,6 +2706,10 @@ orjson = [
 packaging = [
     {file = "packaging-22.0-py3-none-any.whl", hash = "sha256:957e2148ba0e1a3b282772e791ef1d8083648bc131c8ab0c1feba110ce1146c3"},
     {file = "packaging-22.0.tar.gz", hash = "sha256:2198ec20bd4c017b8f9717e00f0c8714076fc2fd93816750ab48e2c41de2cfd3"},
+]
+parameterized = [
+    {file = "parameterized-0.8.1-py2.py3-none-any.whl", hash = "sha256:9cbb0b69a03e8695d68b3399a8a5825200976536fe1cb79db60ed6a4c8c9efe9"},
+    {file = "parameterized-0.8.1.tar.gz", hash = "sha256:41bbff37d6186430f77f900d777e5bb6a24928a1c46fb1de692f8b52b8833b5c"},
 ]
 parso = [
     {file = "parso-0.8.3-py2.py3-none-any.whl", hash = "sha256:c001d4636cd3aecdaf33cbb40aebb59b094be2a74c556778ef5576c175e19e75"},

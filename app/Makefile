@@ -39,7 +39,7 @@ test-loc:
 	psql -c "DROP DATABASE IF EXISTS $(POSTGRES_TEST_DATABASE_NAME);"
 	psql -c "CREATE DATABASE $(POSTGRES_TEST_DATABASE_NAME);"
 	export PICCOLO_CONF="piccolo_conf_test"
-	#piccolo migrations forwards app
+	# piccolo migrations forwards app
 	piccolo tester run --piccolo_conf=piccolo_conf_test
 
 .PHONY:

@@ -1,14 +1,18 @@
 from unittest import IsolatedAsyncioTestCase
 
+from parameterized import parameterized
+import aiogram
 import pytest
+import typing as t
 from piccolo.conf.apps import Finder
-from piccolo.table import create_db_tables_sync, drop_db_tables_sync
+from piccolo.table import create_db_tables_sync, drop_db_tables_sync, Table
 
 from app.db_functions.personal import add_user_db
-from app.tests.utils import TABLE_USER_2, TABLE_USER_1
+from app.tables import User
 from app.tests.utils import TELEGRAM_USER_2, TELEGRAM_USER_1
 
-TABLES = Finder().get_table_classes()
+
+TABLES: t.List[t.Type[Table]] = Finder().get_table_classes()
 
 
 class TestApp(IsolatedAsyncioTestCase):
@@ -16,23 +20,15 @@ class TestApp(IsolatedAsyncioTestCase):
         create_db_tables_sync(*TABLES)
 
     def tearDown(self):
-        pass
         drop_db_tables_sync(*TABLES)
 
-    @pytest.mark.parametrize(
-        ("telegram_user", "table_user"),
-        (
-                (TELEGRAM_USER_1, TABLE_USER_1),
-                (TELEGRAM_USER_2, TABLE_USER_2)
-        ),
-    )
+    @parameterized.expand([(TELEGRAM_USER_1,), (TELEGRAM_USER_2,)])
     @pytest.mark.asyncio
-    async def test_add_user_db(self, telegram_user, table_user):
-        user = await add_user_db(telegram_user)
-        assert user.telegram_user_id == table_user.telegram_user_id
-        assert user.id == table_user.id
-        assert user.first_name == table_user.first_name
-        assert user.last_name == table_user.last_name
-        assert user.user_name == table_user.user_name
-        assert user.telegram_language == table_user.telegram_language
+    async def test_add_user_db_verification_of_recorded_data(self, telegram_user: aiogram.types.User) -> None:
+        user: User = await add_user_db(telegram_user)
+        assert user.telegram_user_id == telegram_user.id
+        assert user.first_name == telegram_user.first_name
+        assert user.last_name == (telegram_user.last_name or '')
+        assert user.user_name == (telegram_user.username or '')
+        assert user.telegram_language == (telegram_user.language_code or '')
 

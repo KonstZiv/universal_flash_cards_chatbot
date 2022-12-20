@@ -6,8 +6,6 @@ from typing import Optional
 
 async def add_user_db(data_telegram: aiogram.types.User) -> User:
     last_name: Optional[str] = data_telegram.last_name
-    if not last_name:
-        last_name: str = ""
     user: User = User(
         telegram_user_id=data_telegram.id,
         telegram_language=data_telegram.language_code or '',
