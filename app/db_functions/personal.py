@@ -4,16 +4,16 @@ from app.tables import Context, User, UserContext
 from typing import Optional
 
 
-async def add_new_user_db(data_telegram: aiogram.types.User) -> User:
-    last_name: str = data_telegram.last_name
+async def add_user_db(data_telegram: aiogram.types.User) -> User:
+    last_name: Optional[str] = data_telegram.last_name
     if not last_name:
         last_name: str = ""
     user: User = User(
         telegram_user_id=data_telegram.id,
-        telegram_language=data_telegram.language_code,
-        user_name=data_telegram.username,
+        telegram_language=data_telegram.language_code or '',
+        user_name=data_telegram.username or '',
         first_name=data_telegram.first_name,
-        last_name=last_name,
+        last_name=last_name or '',
     )
     await user.save()
     return user

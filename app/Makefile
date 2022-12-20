@@ -38,9 +38,9 @@ test-py:  ## Run tests on Python code
 test-loc:
 	psql -c "DROP DATABASE IF EXISTS $(POSTGRES_TEST_DATABASE_NAME);"
 	psql -c "CREATE DATABASE $(POSTGRES_TEST_DATABASE_NAME);"
-	#export PICCOLO_CONF="piccolo_conf_test"
-	piccolo migrations forwards all
-	piccolo tester run
+	export PICCOLO_CONF="piccolo_conf_test"
+	#piccolo migrations forwards app
+	piccolo tester run --piccolo_conf=piccolo_conf_test
 
 .PHONY:
 coverage-py:  ## Runs python/django test coverage calculation

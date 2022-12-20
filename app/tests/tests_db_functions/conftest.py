@@ -1,6 +1,6 @@
 import pytest_asyncio
 from app.tables import User
-from tests.tests_db.utils import TABLE_USER_1
+from app.tests.utils import TABLE_USER_1
 
 
 @pytest_asyncio.fixture(scope="session")
@@ -25,3 +25,12 @@ def setup_teardown(params):
     setup(params)
     yield
     teardown(params)
+
+#
+# @pytest.fixture(scope="session")
+# def event_loop():
+#     policy = asyncio.get_event_loop_policy()
+#     loop = policy.new_event_loop()
+#     yield loop
+#     loop.close()
+
