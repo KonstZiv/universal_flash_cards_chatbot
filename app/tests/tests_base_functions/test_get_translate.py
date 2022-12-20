@@ -3,7 +3,7 @@ from unittest.mock import patch
 import pytest
 from pydantic import ValidationError
 
-from app.base_function.translator import get_translate, translate_client
+from app.base_functions.translator import get_translate, translate_client
 from app.scheme.transdata import ISO639_1, TranslateRequest
 # used to load the environment variables required for the function get_translate
 from app.settings import settings  # noqa !!!

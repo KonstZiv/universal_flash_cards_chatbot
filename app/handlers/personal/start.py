@@ -6,9 +6,9 @@ from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import StatesGroup, State
 
 import app.handlers.personal.keyboards as kb
-from app.base_function.translator import get_translate
-from app.db_function.personal import (add_new_user_db, add_user_context_db,
-                                      get_user_db, get_user_context_db)
+from app.base_functions.translator import get_translate
+from app.db_functions.personal import (add_user_db, add_user_context_db,
+                                       get_user_db, get_user_context_db)
 from app.scheme.transdata import ISO639_1, TranslateRequest
 from app.tables import UserContext, User
 
@@ -57,7 +57,9 @@ async def select_target_language(callback_query: types.CallbackQuery, state: FSM
     await state.update_data({"target_lang": callback_query.data})
     user_db = await get_user_db(callback_query.from_user)
     if user_db is None:
-        user_db: Optional[User] = await add_new_user_db(callback_query.from_user)
+        user_db: Optional[User] = await add_user_db(callback_query.from_user)
+
+
     state_data = await state.get_data()
     user_context_db = await add_user_context_db(state_data, user_db)
 

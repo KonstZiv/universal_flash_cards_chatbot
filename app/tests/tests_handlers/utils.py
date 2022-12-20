@@ -1,7 +1,7 @@
 from datetime import datetime
 
-from aiogram.types import User, Chat, Message, Update, CallbackQuery
-from tests.utils import TELEGRAM_USER_1
+from aiogram.types import Chat, Message, Update, CallbackQuery
+from app.tests.utils import TELEGRAM_USER_1
 
 TEST_USER_CHAT = Chat(
     id=2,
